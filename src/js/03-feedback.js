@@ -19,15 +19,27 @@ function onFormText(event) {
 function onSubmitButton(event) {
   event.preventDefault();
 
+  if (event.target.email.value === '' || event.target.message.value === '') {
+    return alertError();
+  }
+
   event.currentTarget.reset();
   localStorage.removeItem(FEEDBACK_FORM_KEY);
 }
+
+const alertError = () => {
+  alert('Все поля должны быть заполнены');
+};
 
 function localStorageText() {
   const json = localStorage.getItem(FEEDBACK_FORM_KEY);
   const savedStorage = JSON.parse(json);
 
-  if (savedStorage) {
+  if (
+    savedStorage &&
+    feedbackForm.elements.email &&
+    feedbackForm.elements.message
+  ) {
     feedbackForm.elements.email.value = savedStorage.email;
     feedbackForm.elements.message.value = savedStorage.message;
   }
